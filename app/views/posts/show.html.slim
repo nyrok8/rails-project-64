@@ -1,0 +1,30 @@
+nav.mb-4 aria-label='breadcrumb'
+  ol.breadcrumb
+    li.breadcrumb-item = link_to 'Все посты', posts_path
+    li.breadcrumb-item.active aria-current='page' = @post.category.name
+
+h1.mb-5 = @post.title
+p.mb-4 = @post.body
+.d-flex.mb-5
+  .me-auto
+    span.me-2 = @post.creator.email
+    small.text-muted = l(@post.created_at, format: :long)
+  .ms-auto
+    span.me-2 = @post.likes.size
+    - if user_signed_in?
+      - if @post.likes.exists?(user: current_user)
+        = link_to post_like_path(@post), data: { turbo_method: 'delete' } do
+          i.bi.bi-hand-thumbs-up-fill
+      - else
+        = link_to post_like_path(@post), data: { turbo_method: 'post' } do
+          i.bi.bi-hand-thumbs-up
+    - else
+      i.bi.bi-hand-thumbs-up
+
+h3.mb-2 Комментарии
+- if user_signed_in?
+  .mb-4
+    = render partial: 'posts/comments/form', locals: { parent_id: nil }
+
+- @post.comments.roots.each do |comment|
+  = render partial: 'posts/comments/comment', locals: { comment: comment }

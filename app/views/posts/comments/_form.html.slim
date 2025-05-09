@@ -1,0 +1,10 @@
+= simple_form_for @post_comment, url: post_comments_path(@post) do |f|
+  = f.input :content,
+      as: :text,
+      label: false,
+      input_html: { class: 'form-control', rows: 2 },
+      required: true
+
+  = f.hidden_field :parent_id, value: parent_id
+
+  = f.submit 'Оставить комментарий', class: 'btn btn-primary'

@@ -1,0 +1,23 @@
+h2 Войти
+
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  = f.input :email,
+      autocomplete: 'email',
+      required: true,
+      input_html: { class: 'form-control' }
+
+  = f.input :password,
+      autocomplete: 'current-password',
+      required: true,
+      input_html: { class: 'form-control' }
+
+  = f.input :remember_me,
+      as: :boolean,
+      wrapper: :vertical_boolean,
+      input_html: { class: 'form-check-input' },
+      label_html: { class: 'form-check-label' },
+      label: 'Запомнить меня'
+
+  = f.button :submit, 'Войти', class: 'btn btn-primary'
+
+= render 'devise/shared/links'
