@@ -3,6 +3,20 @@
 require 'test_helper'
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:one)
+    sign_in @user
+
+    @category = categories(:one)
+    @post = posts(:one)
+
+    @post_params = {
+      title: Faker::Lorem.sentence(word_count: 3),
+      body: Faker::Lorem.paragraph_by_chars(number: 300),
+      category_id: @category.id
+    }
+  end
+
   test 'should get index' do
     get posts_url
     assert { @response.status == 200 }
@@ -19,14 +33,8 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create post' do
-    post_params = {
-      title: Faker::Lorem.sentence(word_count: 3),
-      body: Faker::Lorem.paragraph_by_chars(number: 300),
-      category_id: @category.id
-    }
-
     count_before = Post.count
-    post posts_url, params: { post: post_params }
+    post posts_url, params: { post: @post_params }
     count_after = Post.count
 
     assert { count_after == count_before + 1 }
@@ -35,8 +43,8 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should not create post with invalid data' do
     invalid_params = {
-      title: '', # пустой заголовок
-      body: 'short', # < 200 символов
+      title: '123',
+      body: '123',
       category_id: @category.id
     }
 
@@ -48,7 +56,6 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert { @response.status == 422 && !@response.redirect? }
   end
 
-  # Tests for unauthorized (guest) access
   test 'should redirect new when not logged in' do
     sign_out :user
     get new_post_url
@@ -57,12 +64,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should redirect create when not logged in' do
     sign_out :user
-    post_params = {
-      title: Faker::Lorem.sentence(word_count: 3),
-      body: Faker::Lorem.paragraph_by_chars(number: 300),
-      category_id: @category.id
-    }
-    post posts_url, params: { post: post_params }
+    post posts_url, params: { post: @post_params }
     assert { @response.redirect? && @response.location == new_user_session_url }
   end
 end

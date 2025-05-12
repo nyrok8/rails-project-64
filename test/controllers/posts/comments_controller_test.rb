@@ -4,6 +4,11 @@ require 'test_helper'
 
 class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = users(:one)
+    sign_in @user
+
+    @post = posts(:one)
+
     @comment_params = {
       post_comment: {
         content: Faker::Lorem.sentence(word_count: 5)

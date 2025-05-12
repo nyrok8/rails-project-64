@@ -3,6 +3,13 @@
 require 'test_helper'
 
 class Posts::LikesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @user = users(:two)
+    sign_in @user
+
+    @post = posts(:two)
+  end
+
   test 'should create like' do
     count_before = Post::Like.count
     post post_like_url(@post)
