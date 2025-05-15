@@ -15,7 +15,7 @@ class LikesController < ApplicationController
     resource_post
     @like = PostLike.find_by(post: @resource_post, user: current_user)
 
-    @like.destroy
+    @like&.destroy
     redirect_to @resource_post
   end
 end
