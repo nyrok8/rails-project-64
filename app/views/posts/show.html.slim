@@ -24,7 +24,7 @@ p.mb-4 = @post.body
 h3.mb-2 Комментарии
 - if user_signed_in?
   .mb-4
-    = render partial: 'posts/comments/form', locals: { parent_id: nil }
+    = render partial: 'comments/form', locals: { parent_id: nil }
 
 - @post.comments.roots.each do |comment|
-  = render partial: 'posts/comments/comment', locals: { comment: comment }
+  = render partial: 'comments/comment', locals: { comment: comment }

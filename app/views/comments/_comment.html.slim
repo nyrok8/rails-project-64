@@ -1,6 +1,6 @@
 .card(class=('mb-2' if comment.is_root?))
-  .card-header.bg-light
-    span.me-1 = link_to '#'
+  .card-header.bg-light(id="comment-#{comment.id}")
+    span.me-1 = link_to '#', "#comment-#{comment.id}"
     span.me-2 = comment.user.email
     small.text-muted = l(comment.created_at, format: :short)
 
@@ -15,8 +15,8 @@
           aria: { controls: "comment#{comment.id}", expanded: false }
 
       .collapse.mb-3(id="comment#{comment.id}")
-        = render partial: 'posts/comments/form', locals: { parent_id: comment.id }
+        = render partial: 'comments/form', locals: { parent_id: comment.id }
 
     - if comment.children.any?
       - comment.children.each do |child|
-        = render partial: 'posts/comments/comment', locals: { comment: child }
+        = render partial: 'comments/comment', locals: { comment: child }

@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class Posts::CommentsController < Posts::ApplicationController
+class CommentsController < ApplicationController
   before_action :authenticate_user!, only: :create
 
   def create
     resource_post
-    @comment = Post::Comment.new(comment_params)
+    @comment = PostComment.new(comment_params)
     @comment.post = @resource_post
     @comment.user = current_user
 

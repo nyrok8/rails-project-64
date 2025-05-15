@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
+class CommentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
     sign_in @user
@@ -17,9 +17,9 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create comment' do
-    count_before = Post::Comment.count
+    count_before = PostComment.count
     post post_comments_url(@post), params: @comment_params
-    count_after = Post::Comment.count
+    count_after = PostComment.count
 
     assert { count_after == count_before + 1 }
     assert { @response.redirect? && @response.location == post_url(@post) }
@@ -28,9 +28,9 @@ class Posts::CommentsControllerTest < ActionDispatch::IntegrationTest
   test 'should not create comment with invalid data' do
     invalid_params = { post_comment: { content: '' } }
 
-    count_before = Post::Comment.count
+    count_before = PostComment.count
     post post_comments_url(@post), params: invalid_params
-    count_after = Post::Comment.count
+    count_after = PostComment.count
 
     assert { count_after == count_before }
     assert { @response.redirect? && @response.location == post_url(@post) }

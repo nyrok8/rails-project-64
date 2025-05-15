@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class Posts::LikesControllerTest < ActionDispatch::IntegrationTest
+class LikesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:two)
     sign_in @user
@@ -11,19 +11,19 @@ class Posts::LikesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create like' do
-    count_before = Post::Like.count
+    count_before = PostLike.count
     post post_like_url(@post)
-    count_after = Post::Like.count
+    count_after = PostLike.count
 
     assert { count_after == count_before + 1 }
     assert { @response.redirect? && @response.location == post_url(@post) }
   end
 
   test 'should destroy like' do
-    Post::Like.create!(post: @post, user: @user)
-    count_before = Post::Like.count
+    PostLike.create!(post: @post, user: @user)
+    count_before = PostLike.count
     delete post_like_url(@post)
-    count_after = Post::Like.count
+    count_after = PostLike.count
 
     assert { count_after == count_before - 1 }
     assert { @response.redirect? && @response.location == post_url(@post) }
@@ -36,7 +36,7 @@ class Posts::LikesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should redirect destroy when not logged in' do
-    Post::Like.create!(post: @post, user: @user)
+    PostLike.create!(post: @post, user: @user)
     sign_out :user
     delete post_like_url(@post)
     assert { @response.redirect? && @response.location == new_user_session_url }
