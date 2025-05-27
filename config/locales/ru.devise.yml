@@ -2,12 +2,19 @@ ru:
   devise:
     sessions:
       user:
-        signed_in: Вход в систему выполнен
-        signed_out: Выход из системы выполнен
+        signed_in: Вход в систему выполнен.
+        signed_out: Выход из системы выполнен.
+      new:
+        remember_me: Запонмить меня
+
     registrations:
       user:
-        signed_up: Добро пожаловать! Вы успешно зарегистрировались
+        signed_up: Добро пожаловать! Вы успешно зарегистрировались.
+      new:
+        password_hint: (минимум 6 знаков)
+
     failure:
       user:
-        invalid: Неправильный Email или пароль
-        not_found_in_database: Неправильный Email или пароль
+        invalid: Неправильный Email или пароль.
+        not_found_in_database: Неправильный Email или пароль.
+        unauthenticated: Вам необходимо войти в систему или зарегистрироваться.

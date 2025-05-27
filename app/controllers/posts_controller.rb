@@ -4,12 +4,17 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: %i[new create]
 
   def index
-    @posts = Post.includes(:creator, :likes).order(created_at: :desc)
+    @posts = Post.includes(:creator).order(created_at: :desc)
   end
 
   def show
     @post = Post.find(params[:id])
-    @post_comment = PostComment.new
+    @post_comment = @post.comments.build
+
+    @liked_post = @post.likes.exists?(user: current_user)
+
+    comments_tree = @post.comments.order(created_at: :desc).arrange
+    @comments = PostComment.sort_by_ancestry(comments_tree)
   end
 
   def new
@@ -17,8 +22,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-    @post.creator = current_user
+    @post = current_user.posts.build(post_params)
 
     if @post.save
       flash[:notice] = t('.success')

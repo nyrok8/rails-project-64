@@ -6,11 +6,9 @@ class CreatePostComments < ActiveRecord::Migration[7.2]
       t.references :post, null: false, foreign_key: true
       t.references :user, null: false, foreign_key: true
 
-      t.string :ancestry
+      t.string :ancestry, index: true
 
       t.timestamps
     end
-
-    add_index :post_comments, :ancestry
   end
 end

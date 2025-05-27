@@ -45,6 +45,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_05_08_024412) do
     t.text "body", null: false
     t.integer "category_id", null: false
     t.integer "creator_id", null: false
+    t.integer "likes_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_posts_on_category_id"

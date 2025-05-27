@@ -8,3 +8,6 @@ ru:
     formats:
       short: "%-d %b, %H:%M"
       long: "%-d %B, %H:%M"
+
+  sign_in: Войти
+  sign_up: Регистрация

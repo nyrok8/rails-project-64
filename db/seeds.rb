@@ -29,29 +29,29 @@ Post.create!(
   creator: user2
 )
 
-Post::Like.create!(post: post1, user: user1)
-Post::Like.create!(post: post1, user: user2)
+PostLike.create!(post: post1, user: user1)
+PostLike.create!(post: post1, user: user2)
 
-Post::Comment.create!(
+PostComment.create!(
   content: 'first',
   user: user1,
   post: post1
 )
 
-comment_with_comments = Post::Comment.create!(
+comment_with_comments = PostComment.create!(
   content: 'this is comment with comments',
   user: user1,
   post: post1
 )
 
-commented_comment = Post::Comment.create!(
+commented_comment = PostComment.create!(
   content: 'commented comment',
   user: user1,
   post: post1,
   parent: comment_with_comments
 )
 
-Post::Comment.create!(
+PostComment.create!(
   content: 'deep comment',
   user: user1,
   post: post1,

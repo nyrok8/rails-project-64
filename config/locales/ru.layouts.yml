@@ -1,0 +1,6 @@
+ru:
+  layouts:
+    shared:
+      nav:
+        sign_out: Выйти
+        new_post: Новый пост

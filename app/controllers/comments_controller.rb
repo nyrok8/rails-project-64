@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, only: :create
+  before_action :authenticate_user!
 
   def create
-    resource_post
-    @comment = PostComment.new(comment_params)
-    @comment.post = @resource_post
-    @comment.user = current_user
+    post = Post.find(params[:post_id])
+    comment = post.comments.build(comment_params)
+    comment.user = current_user
 
-    if @comment.save
-      redirect_to @resource_post, notice: t('.success')
+    if comment.save
+      redirect_to post, notice: t('.success')
     else
-      redirect_to @resource_post, notice: t('.failure')
+      redirect_to post, notice: t('.failure')
     end
   end
 

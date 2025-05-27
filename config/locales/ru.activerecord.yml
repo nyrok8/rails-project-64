@@ -12,18 +12,20 @@ ru:
 
     errors:
       messages:
-        blank: не может быть пустым
-        too_short: "недостаточной длины (не может быть меньше %{count} символов)"
-        too_long: "слишком большой длины (не может быть больше чем %{count} символов)"
-        required: не может отсутствовать
-        not_saved: Проверьте введеные данные
-        record_invalid: "Объект недействителен: %{errors}"
+        blank: не может быть пустым.
+        too_short: "недостаточной длины (не может быть меньше %{count} символов)."
+        too_long: "слишком большой длины (не может быть больше чем %{count} символов)."
+        required: не может отсутствовать.
+        not_saved: "Проверьте введеные данные:"
+        record_invalid: "Объект недействителен: %{errors}."
       
       models:
         user:
           attributes:
+            email:
+              taken: уже существует.
             password_confirmation:
-              confirmation: не совпадает со значением поля Пароль
+              confirmation: не совпадает со значением поля Пароль.
 
   support:
     array:

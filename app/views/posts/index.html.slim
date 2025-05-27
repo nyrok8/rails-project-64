@@ -1,4 +1,4 @@
-h1.mb-4 Коллективный блог
+h1.mb-4 = t('.title')
 
 - @posts.each do |post|
   .card.mb-2
@@ -10,6 +10,6 @@ h1.mb-4 Коллективный блог
         = truncate(post.body, length: 300, separator: ' ')
 
       p.card-text.small.text-muted
-        span.me-2 = "Понравилось: #{post.likes.size}"
+        span.me-2 = "#{t('.liked')}: #{post.likes.size}"
         span.me-2 = l(post.created_at, format: :short)
         span = post.creator.email

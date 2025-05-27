@@ -1,4 +1,4 @@
-.card(class=('mb-2' if comment.is_root?))
+.card.mb-2
   .card-header.bg-light(id="comment-#{comment.id}")
     span.me-1 = link_to '#', "#comment-#{comment.id}"
     span.me-2 = comment.user.email
@@ -8,15 +8,11 @@
     p = comment.content
 
     - if user_signed_in?
-      = button_tag 'Ответить',
+      = button_tag t('.reply'),
           type: :button,
           class: 'btn btn-sm btn-outline-secondary mb-2',
           data: { bs_toggle: 'collapse', bs_target: "#comment#{comment.id}" },
           aria: { controls: "comment#{comment.id}", expanded: false }
 
       .collapse.mb-3(id="comment#{comment.id}")
-        = render partial: 'comments/form', locals: { parent_id: comment.id }
-
-    - if comment.children.any?
-      - comment.children.each do |child|
-        = render partial: 'comments/comment', locals: { comment: child }
+        = render partial: 'comments/form', locals: { post_comment: @post.comments.build, post: @post, parent_id: comment.id }

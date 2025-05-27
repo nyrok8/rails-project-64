@@ -17,28 +17,33 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should create comment' do
-    count_before = PostComment.count
-    post post_comments_url(@post), params: @comment_params
-    count_after = PostComment.count
+    assert_difference('PostComment.count', 1) do
+      post post_comments_url(@post), params: @comment_params
+    end
 
-    assert { count_after == count_before + 1 }
-    assert { @response.redirect? && @response.location == post_url(@post) }
+    created = @post.comments.find_by(@comment_params[:post_comment].merge(user_id: @user.id))
+    assert { created }
+
+    assert_redirected_to post_url(@post)
   end
 
   test 'should not create comment with invalid data' do
     invalid_params = { post_comment: { content: '' } }
 
-    count_before = PostComment.count
-    post post_comments_url(@post), params: invalid_params
-    count_after = PostComment.count
+    assert_no_difference('PostComment.count') do
+      post post_comments_url(@post), params: invalid_params
+    end
 
-    assert { count_after == count_before }
-    assert { @response.redirect? && @response.location == post_url(@post) }
+    assert_redirected_to post_url(@post)
   end
 
   test 'should redirect create when not logged in' do
     sign_out :user
-    post post_comments_url(@post), params: @comment_params
-    assert { @response.redirect? && @response.location == new_user_session_url }
+
+    assert_no_difference('PostComment.count') do
+      post post_comments_url(@post), params: @comment_params
+    end
+
+    assert_redirected_to new_user_session_url
   end
 end

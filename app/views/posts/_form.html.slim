@@ -1,6 +1,6 @@
-= simple_form_for(@post) do |f|
+= simple_form_for(post) do |f|
   = f.input :title,
-      hint: '5–255 символов',
+      hint: t('.title_hint'),
       input_html: { class: 'form-control' },
       required: true
 
@@ -9,9 +9,9 @@
       required: true
 
   = f.input :body,
-      hint: 'От 200 до 4000 символов',
+      hint: t('.body_hint'),
       as: :text,
       input_html: { class: 'form-control', rows: 6 },
       required: true
 
-  = f.submit 'Опубликовать', class: 'btn btn-primary'
+  = f.submit t('.submit'), class: 'btn btn-primary'

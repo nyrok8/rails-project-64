@@ -1,4 +1,4 @@
-h2 Войти
+h2 = t('sign_in')
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
   = f.input :email,
@@ -16,8 +16,8 @@ h2 Войти
       wrapper: :vertical_boolean,
       input_html: { class: 'form-check-input' },
       label_html: { class: 'form-check-label' },
-      label: 'Запомнить меня'
+      label: t('.remember_me')
 
-  = f.button :submit, 'Войти', class: 'btn btn-primary'
+  = f.button :submit, t('sign_in'), class: 'btn btn-primary'
 
 = render 'devise/shared/links'

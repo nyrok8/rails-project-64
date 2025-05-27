@@ -19,26 +19,28 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test 'should get index' do
     get posts_url
-    assert { @response.status == 200 }
+    assert_response :success
   end
 
   test 'should get new' do
     get new_post_url
-    assert { @response.status == 200 }
+    assert_response :success
   end
 
   test 'should show post' do
     get post_url(@post)
-    assert { @response.status == 200 }
+    assert_response :success
   end
 
   test 'should create post' do
-    count_before = Post.count
-    post posts_url, params: { post: @post_params }
-    count_after = Post.count
+    assert_difference('Post.count', 1) do
+      post posts_url, params: { post: @post_params }
+    end
 
-    assert { count_after == count_before + 1 }
-    assert { @response.redirect? && @response.location == post_url(Post.last) }
+    created = Post.find_by(@post_params.merge(creator_id: @user.id))
+    assert { created }
+
+    assert_redirected_to post_url(created)
   end
 
   test 'should not create post with invalid data' do
@@ -48,23 +50,27 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       category_id: @category.id
     }
 
-    count_before = Post.count
-    post posts_url, params: { post: invalid_params }
-    count_after = Post.count
+    assert_no_difference('Post.count') do
+      post posts_url, params: { post: invalid_params }
+    end
 
-    assert { count_after == count_before }
-    assert { @response.status == 422 && !@response.redirect? }
+    assert_response :unprocessable_entity
   end
 
   test 'should redirect new when not logged in' do
     sign_out :user
+
     get new_post_url
-    assert { @response.redirect? && @response.location == new_user_session_url }
+    assert_redirected_to new_user_session_url
   end
 
   test 'should redirect create when not logged in' do
     sign_out :user
-    post posts_url, params: { post: @post_params }
-    assert { @response.redirect? && @response.location == new_user_session_url }
+
+    assert_no_difference('Post.count') do
+      post posts_url, params: { post: @post_params }
+    end
+
+    assert_redirected_to new_user_session_url
   end
 end

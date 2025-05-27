@@ -1,0 +1,11 @@
+ru:
+  comments:
+    comment:
+      reply: Ответить
+
+    form:
+      submit: Оставить комментарий
+
+    create:
+      success: Комментарий опубликован.
+      failure: Комментарий не опубликован.
