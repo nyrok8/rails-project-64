@@ -5,9 +5,8 @@ class LikesController < ApplicationController
 
   def create
     post = Post.find(params[:post_id])
-    like = post.likes.build(user: current_user)
+    post.likes.find_or_create_by(user: current_user)
 
-    like.save
     redirect_to post
   end
 

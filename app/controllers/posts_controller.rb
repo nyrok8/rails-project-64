@@ -11,10 +11,9 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @post_comment = @post.comments.build
 
-    @liked_post = @post.likes.exists?(user: current_user)
+    @post_liked = @post.likes.exists?(user: current_user)
 
-    comments_tree = @post.comments.order(created_at: :desc).arrange
-    @comments = PostComment.sort_by_ancestry(comments_tree)
+    @comments = @post.comments.order(created_at: :desc).arrange
   end
 
   def new
@@ -25,8 +24,7 @@ class PostsController < ApplicationController
     @post = current_user.posts.build(post_params)
 
     if @post.save
-      flash[:notice] = t('.success')
-      redirect_to @post
+      redirect_to @post, notice: t('.success')
     else
       flash.now[:alert] = t('.failure')
       render :new, status: :unprocessable_entity

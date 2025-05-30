@@ -11,7 +11,7 @@ class CommentsController < ApplicationController
     if comment.save
       redirect_to post, notice: t('.success')
     else
-      redirect_to post, notice: t('.failure')
+      redirect_to post, alert: t('.failure')
     end
   end
 
